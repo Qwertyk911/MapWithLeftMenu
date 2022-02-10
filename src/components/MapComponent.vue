@@ -1,14 +1,19 @@
 <template>
   <l-map
-    style="width: 100%; height: 600px"
+    style="width: 100%; height: 100vh"
     :zoom="13"
     :center="store.center"
     @click="mapClick"
     :options="{ zoomControl: false }"
   >
+  <l-control class="column" position="topleft">
+    <transition name="fade">
+  <DxToolbar :items="toolbarContent" v-if="!store.openState"/>
+    </transition>
+  </l-control>
     <l-tile-layer :url="url"></l-tile-layer>
     <l-marker
-      @click="information(marker), log($event)"
+      @click="information(marker), store.openState='true', log($event)"
       v-for="(marker, key) in store.markers"
       :key="key"
       :lat-lng="marker"
@@ -45,14 +50,17 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LControlZoom } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LControlZoom, LControl } from "vue2-leaflet";
 import store from "../store/index";
+import DxToolbar from "devextreme-vue/toolbar";
 export default {
   components: {
     LMap,
     LTileLayer,
     LMarker,
     LControlZoom,
+    LControl,
+    DxToolbar
   },
   data() {
     return {
@@ -60,6 +68,19 @@ export default {
       map: null,
       tileLayer: null,
       url: "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+      toolbarContent: [
+        {
+          widget: "dxButton",
+          location: "before",
+          options: {
+            icon: "menu",
+            onClick: () => {
+              store.openState = !store.openState;
+              console.log(store.openState)
+            },
+          },
+        },
+      ],
     };
   },
   methods: {
@@ -118,7 +139,7 @@ export default {
 .column {
   display: flex;
   flex-direction: column;
-  margin: 0;
+  margin: 0 !important;
 }
 .columnNoBackgr {
   display: flex;
@@ -224,5 +245,11 @@ label {
 
 #content h2 {
   font-size: 26px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>

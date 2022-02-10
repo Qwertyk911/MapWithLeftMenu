@@ -1,12 +1,12 @@
 <template>
   <div style="height:100%">
-    <DxToolbar :items="toolbarContent" />
+    
     <DxDrawer
       opened-state-mode="overlap"
       position="left"
       reveal-mode="slide"
-      v-model="openState"
-      :opened="openState"
+      v-model="store.openState"
+      :opened="store.openState"
       template="listMenu"
       
     >
@@ -21,32 +21,21 @@
 </template>
 <script>
 import DxDrawer from "devextreme-vue/drawer";
-import DxToolbar from "devextreme-vue/toolbar";
+//import DxToolbar from "devextreme-vue/toolbar";
 import NavigationList from "./NavigationList.vue";
 import MapComponent from "./MapComponent.vue"
+import store from "../store/index"
 
 export default {
   components: {
     DxDrawer,
-    DxToolbar,
+    // DxToolbar,
     NavigationList,
     MapComponent
   },
   data() {
     return {
-      openState: true,
-      toolbarContent: [
-        {
-          widget: "dxButton",
-          location: "before",
-          options: {
-            icon: "menu",
-            onClick: () => {
-              this.openState = !this.openState;
-            },
-          },
-        },
-      ],
+      store,
     };
   },
 };

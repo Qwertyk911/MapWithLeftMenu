@@ -1,6 +1,6 @@
 let store = {
   zoom: 13,
-  center: [54.7848498481564, 20.942687988281254],
+  center: [44.9531368, 34.0960693],
   markers: [],
   bmark: [
     // массив с обьектами для занесения в массив маркер инфы как обьекты
@@ -132,7 +132,7 @@ let store = {
               this.latitude = data[0].lat;
               this.longitude = data[0].lon;
               } else {
-              this.postCity.length == 0
+              postCity.length == 0
                 ? alert(`Введите название`)
                 : alert(`Город ${this.postCity} не найден`);
             }
