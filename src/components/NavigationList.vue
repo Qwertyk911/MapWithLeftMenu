@@ -1,9 +1,4 @@
 <template>
-  <!-- Недочеты/ошибки
-1. Серая полоса сверху
-2. Полоса прокрутки справа 
-3. Размеры левого меню-->
-
   <div class="left-menu-background">
     <DxToolbar :items="toolbarContent" style="background: transparent" />
     <div class="form">
@@ -222,10 +217,5 @@ label {
 
 #content h2 {
   font-size: 26px;
-}
-</style>
-<style>
-.dx-item-content {
-  color: #fff;
 }
 </style>
