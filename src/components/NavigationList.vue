@@ -16,7 +16,9 @@
           </div>
         </div>
         <div class="dx-field" style="margin-top: 10px">
-          <div @keyup.enter="store.postAPI(postCity, searchOf)">
+          <div
+            @keyup.enter="store.postAPI(postCity, searchOf), (postCity = '')"
+          >
             <DxAutocomplete
               :data-source="store.listData"
               v-model="postCity"
@@ -27,7 +29,9 @@
               @value-changed="autocomplete(postCity, searchOf)"
             >
               <template #stateTemplate="{ data }">
-                <span @click="store.postAPI(data, searchOf)">{{ data }}</span>
+                <span @click="store.postAPI(data, searchOf), (postCity = '')">{{
+                  data
+                }}</span>
               </template>
             </DxAutocomplete>
           </div>
@@ -36,7 +40,7 @@
             text="Поиск"
             type="success"
             styling-mode="contained"
-            @click="store.postAPI(postCity, searchOf)"
+            @click="store.postAPI(postCity, searchOf), (postCity = '')"
             style="margin: 5px"
           />
         </div>
@@ -87,7 +91,6 @@ export default {
             icon: "menu",
             onClick: () => {
               store.openState = !store.openState;
-              console.log(store.openState);
             },
           },
         },
@@ -96,7 +99,6 @@ export default {
   },
   methods: {
     changeSelection(e) {
-      console.log(e);
       if (e.value === "По координатам") {
         this.searchOf = "Введите координаты";
       } else {
@@ -120,7 +122,6 @@ export default {
             for (let element of data) {
               store.listData.push(element.display_name);
             }
-            console.log(store.listData);
           });
       }
     },

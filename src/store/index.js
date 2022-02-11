@@ -46,16 +46,6 @@ let store = {
         if (razdel[0].indexOf(",") >= 0) {
           razdel[0] = razdel[0].slice(0, -1);
         }
-        // For test-----------------------------------------
-
-        // //console.log(razdel);
-        // this.center = [razdel[0], razdel[1]];
-        // LMarker.latLng = [razdel[0], razdel[1]];
-        // console.log(LMarker)
-        // //this.bmark.lng = razdel[1];
-        // this.markers.push(LMarker.latLng);
-        // console.log(this.markers)
-
         // For Nominatim------------------------------------
 
         postCity = `http://192.168.1.85/nominatim/reverse.php?lat=${razdel[0]}&lon=${razdel[1]}`;
@@ -76,16 +66,6 @@ let store = {
               if (data.indexOf("</error") >= 0) {
                 this.bmark.display_name =
                   "Информация о данной метке остутствует";
-              }
-
-              // Костыль для Крыма -----------------------------------------------
-              else if (data.indexOf("Республика Крым") >= 0) {
-                this.bmark.display_name = diff
-                  .slice(diff.indexOf(">") + 1, diff.length)
-                  .replace("Украина", "Россия")
-                  .replace("Автономная Республика Крым", "Республика Крым")
-                  .split("&quot;")
-                  .join('"');
               }
               //----------------------------------------------------------------
               else {
@@ -118,20 +98,13 @@ let store = {
           .then((data) => {
             if (data.length) {
               this.listData = data;
-              // Костыль для Крыма в поиске по названию-----------------------------
-              if (data[0].display_name.indexOf("Республика Крым") >= 0) {
-                data[0].display_name = data[0].display_name
-                  .replace("Украина", "Россия")
-                  .replace("Автономная Республика Крым", "Республика Крым");
-              }
-              //--------------------------------------------------------------------
               this.center = [data[0].lat, data[0].lon];
               this.markers.push(data[0]);
               // default info about marker
               this.name = data[0].display_name;
               this.latitude = data[0].lat;
               this.longitude = data[0].lon;
-              } else {
+            } else {
               postCity.length == 0
                 ? alert(`Введите название`)
                 : alert(`Город ${this.postCity} не найден`);

@@ -1,115 +1,36 @@
 <template>
-  <div style="height:100%">
-    
+  <div style="height: 100%">
     <DxDrawer
       opened-state-mode="overlap"
       position="left"
       reveal-mode="slide"
-      v-model="store.openState"
-      :opened="store.openState"
+      v-model="this.$store.openState"
+      :opened="this.$store.openState"
       template="listMenu"
-      
     >
       <template #listMenu>
         <NavigationList />
       </template>
       <div>
-<MapComponent/>
+        <MapComponent />
       </div>
     </DxDrawer>
   </div>
 </template>
 <script>
 import DxDrawer from "devextreme-vue/drawer";
-//import DxToolbar from "devextreme-vue/toolbar";
 import NavigationList from "./NavigationList.vue";
-import MapComponent from "./MapComponent.vue"
-import store from "../store/index"
+import MapComponent from "./MapComponent.vue";
 
 export default {
   components: {
     DxDrawer,
-    // DxToolbar,
     NavigationList,
-    MapComponent
+    MapComponent,
   },
   data() {
-    return {
-      store,
-    };
+    return {};
   },
 };
 </script>
-<style scoped>
-.dx-toolbar {
-  background-color: rgba(191, 191, 191, 0.15);
-  padding: 5px 10px;
-}
-
-.dx-list-item-icon-container,
-.dx-toolbar-before {
-  width: 36px;
-  padding-right: 0 !important;
-  text-align: center;
-}
-
-.dx-list-item-content {
-  padding-left: 10px !important;
-}
-
-.dx-button {
-  background-color: rgba(191, 191, 191, -0.15);
-  border: none;
-}
-
-.panel-list {
-  height: 400px;
-}
-
-.dx-drawer-expand.dx-drawer-right .panel-list {
-  float: right;
-}
-
-.panel-list .dx-list-item {
-  color: #fff;
-  border-top: 1px solid rgba(221, 221, 221, 0.2);
-}
-
-.panel-list .dx-list-item .dx-icon {
-  color: #fff !important;
-}
-
-.options {
-  padding: 20px;
-  background-color: rgba(191, 191, 191, 0.15);
-}
-
-.options-container {
-  display: flex;
-  align-items: center;
-}
-
-.caption {
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.option {
-  margin-top: 10px;
-  display: inline-block;
-  margin-right: 50px;
-}
-
-label {
-  font-weight: bold;
-}
-
-#content {
-  height: 100%;
-  padding: 10px 20px;
-}
-
-#content h2 {
-  font-size: 26px;
-}
-</style>
+<style scoped></style>

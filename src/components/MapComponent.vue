@@ -4,53 +4,34 @@
     :zoom="13"
     :center="store.center"
     @click="mapClick"
-    :options="{ zoomControl: false }"
+    :options="{ zoomControl: false, attributionControl: false }"
   >
-  <l-control class="column" position="topleft">
-    <transition name="fade">
-  <DxToolbar :items="toolbarContent" v-if="!store.openState"/>
-    </transition>
-  </l-control>
+    <l-control class="column" position="topleft">
+      <transition name="fade">
+        <DxToolbar :items="toolbarContent" v-if="!store.openState" />
+      </transition>
+    </l-control>
     <l-tile-layer :url="url"></l-tile-layer>
     <l-marker
-      @click="information(marker), store.openState='true', log($event)"
+      @click="information(marker), (store.openState = true)"
       v-for="(marker, key) in store.markers"
       :key="key"
       :lat-lng="marker"
     >
-    ></l-marker>
-
-    <!-- <l-control :style="backgrRight" class="column" position="topright">
-      <a v-if="show" @click="(show = !show), switchBackRignt(show)"
-        ><img src="../assets/next.png" style="max-width: 25px; float: right;"
-      /></a>
-      <a v-else @click="(show = !show), switchBackRignt(show)"
-        ><img src="../assets/menu.png" style="max-width: 25px"
-      /></a>
-
-      <DxButton
-        class="controlButton"
-        text="Выравнивание по центру"
-        type="success"
-        styling-mode="contained"
-        v-if="show"
-        @click="centerMark"
-      />
-      <DxButton
-        class="controlButton"
-        text="Удалить маркер"
-        type="success"
-        styling-mode="contained"
-        v-if="show"
-        @click="removeMark"
-      />
-    </l-control> -->
+      ></l-marker
+    >
     <l-control-zoom position="bottomright"></l-control-zoom>
   </l-map>
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LControlZoom, LControl } from "vue2-leaflet";
+import {
+  LMap,
+  LTileLayer,
+  LMarker,
+  LControlZoom,
+  LControl,
+} from "vue2-leaflet";
 import store from "../store/index";
 import DxToolbar from "devextreme-vue/toolbar";
 export default {
@@ -60,7 +41,7 @@ export default {
     LMarker,
     LControlZoom,
     LControl,
-    DxToolbar
+    DxToolbar,
   },
   data() {
     return {
@@ -76,7 +57,6 @@ export default {
             icon: "menu",
             onClick: () => {
               store.openState = !store.openState;
-              console.log(store.openState)
             },
           },
         },
@@ -85,7 +65,6 @@ export default {
   },
   methods: {
     mapClick(event) {
-      //this.markers.push(event.latlng);
       // Добавление меток по клику через номинатим-------------------------------------------------------------
       let koord = "Введите координаты";
       let zapros = `${event.latlng.lat} ${event.latlng.lng}`;
@@ -111,13 +90,9 @@ export default {
         alert("Сначала установите маркер");
       }
     },
-    logs() {
-      console.log("oncl");
-    },
 
     // Вывод информации о метке----------------------------------------------------
     information(index) {
-      // console.log(index);
       store.i = store.markers.indexOf(index);
       store.latitude = store.markers[store.i].lat;
       store.longitude = store.markers[store.i].lon;
@@ -126,12 +101,6 @@ export default {
       }
       store.name = store.markers[store.i].display_name;
     },
-
-   
-    log(event){
-        console.log(event);
-    }
-    // Формирование запроса в номинатим/парсим ответ/добавляем метку на карту
   },
 };
 </script>
@@ -246,8 +215,9 @@ label {
 #content h2 {
   font-size: 26px;
 }
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
   opacity: 0;
