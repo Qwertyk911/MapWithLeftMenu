@@ -155,9 +155,6 @@ export default {
 .normal .dx-radiobutton-checked .dx-radiobutton-icon .dx-radiobutton-icon-dot {
   background: green !important;
 }
-.dx-item-content {
-  color: white !important;
-}
 
 .dx-list-item-content {
   padding-left: 10px !important;
