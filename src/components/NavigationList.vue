@@ -11,6 +11,7 @@
                 :items="priorities"
                 :value="priorities[0]"
                 @valueChanged="changeSelection"
+                id="radioLeft"
               />
             </div>
           </div>
@@ -215,5 +216,10 @@ label {
 
 #content h2 {
   font-size: 26px;
+}
+</style>
+<style>
+#radioLeft .dx-item-content {
+  color: white;
 }
 </style>

@@ -1,0 +1,29 @@
+{
+  "task": "set_points",
+  "data": [
+    {
+      "id": 1234,
+      "display_name": "Керчь",
+      "latitude": 45.3534002,
+      "longitude": 36.4538645
+    },
+    {
+      "id": 12345,
+      "display_name": "Кировское",
+      "latitude": 45.2306487,
+      "longitude": 35.201075
+    },
+    {
+      "id": 123456,
+      "display_name": "Симферополь",
+      "latitude": 44.9521459,
+      "longitude": 34.1024858
+    },
+    {
+      "id": 1234567,
+      "display_name": "Новоозёрное",
+      "latitude": 45.3837166,
+      "longitude": 33.1170303
+    }
+  ]
+}

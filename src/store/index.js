@@ -1,5 +1,5 @@
 let store = {
-  zoom: 13,
+  zoom: 8,
   center: [44.9531368, 34.0960693],
   markers: [],
   bmark: [
@@ -59,7 +59,7 @@ let store = {
               let finish = data.indexOf("</result>");
               let diff = data.slice(start + 8, finish);
 
-              this.center = [razdel[0], razdel[1]];
+              // this.center = [razdel[0], razdel[1]];
               this.bmark.lat = razdel[0];
               this.bmark.lng = razdel[1];
 
@@ -100,6 +100,7 @@ let store = {
               this.listData = data;
               this.center = [data[0].lat, data[0].lon];
               this.markers.push(data[0]);
+              console.log(data);
               // default info about marker
               this.name = data[0].display_name;
               this.latitude = data[0].lat;
