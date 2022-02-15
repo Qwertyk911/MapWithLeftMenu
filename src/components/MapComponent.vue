@@ -8,7 +8,6 @@ bounds // 3) Проверить работоспособность и реакц
     @click="mapClick"
     :options="{ zoomControl: false, attributionControl: false }"
     :bounds="bounds"
-    @update:bounds="updateBounds($event)"
   >
     <l-control class="column" position="topleft">
       <transition name="fade">
@@ -68,8 +67,8 @@ export default {
         },
       ],
       bounds: latLngBounds([
-        [-180, -180],
-        [180, 180],
+        [0, 0],
+        [0, 0],
       ]),
       // maxBounds: latLngBounds([
       //   [40.70081290280357, -74.26963806152345],
@@ -112,112 +111,38 @@ export default {
     },
     //? Get on the input JSON file, immediately apply marks on the map-----------------
     jsonParser() {
+      let x1 = -180;
+      let y1 = -180;
+      let x2 = 180;
+      let y2 = 180;
       fetch(" http://localhost:3000/data")
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          //! Finish the code starting from here------------------------------------------
-
-          // let dynamicX = 0;
-          //let dynamicY = 0;
           for (let obj of data) {
-            console.log(`${this.bounds._northEast.lat} first`);
+            //? Calculate the minimum and maximum point to display on the screen------------------------
+            x1 = x1 < obj.lat ? obj.lat : x1;
+            y1 = y1 < obj.lon ? obj.lon : y1;
+            x2 = x2 > obj.lat ? obj.lat : x2;
+            y2 = y2 > obj.lon ? obj.lon : y2;
 
-            this.$set(
-              this.bounds._northEast,
-              "lat",
-
-              this.bounds._northEast.lat > obj.lat
-                ? obj.lat
-                : this.bounds._northEast.lat
-            );
-            console.log(`${this.bounds._northEast.lat} second`);
-
-            // this.bounds._northEast.lat =
-            //   this.bounds._northEast.lat > obj.lat
-            //     ? obj.lat
-            //     : this.bounds._northEast.lat;
-            this.$set(
-              this.bounds._northEast,
-              "lng",
-
-              this.bounds._northEast.lng > obj.lon
-                ? obj.lon
-                : this.bounds._northEast.lng
-            );
-            // this.bounds._northEast.lng =
-            //   this.bounds._northEast.lng > obj.lon
-            //     ? obj.lon
-            //     : this.bounds._northEast.lng;
-
-            //
-            this.$set(
-              this.bounds._southWest,
-              "lat",
-
-              this.bounds._southWest.lat < obj.lat
-                ? obj.lat
-                : this.bounds._southWest.lat
-            );
-
-            // this.bounds._southWest.lat =
-            //   this.bounds._southWest.lat < obj.lat
-            //     ? obj.lat
-            //     : this.bounds._southWest.lat;
-
-            this.$set(
-              this.bounds._southWest,
-              "lng",
-
-              this.bounds._southWest.lng < obj.lon
-                ? obj.lon
-                : this.bounds._southWest.lng
-            );
-            // this.bounds._southWest.lng =
-            //   this.bounds._southWest.lng < obj.lon
-            //     ? obj.lon
-            //     : this.bounds._southWest.lng;
-            // Middle arithmetic for map centering --------------------------------------
-            // dynamicX += obj.lat;
-            // dynamicY += obj.lon;
             //? If there is no name, we perform a search by coordinates---------------------
             if (!obj.display_name) {
               let formedRequest = `${obj.lat.toString()} ${obj.lon.toString()}`;
-              //console.log(formedRequest);
               store.postAPI(formedRequest, "Введите координаты");
               //? If there are no coordinates, send the name to Nominatim-----------------
             } else if (!obj.lat || !obj.lon) {
               store.postAPI(obj.display_name, "Введите название");
             } else {
               store.markers.push(obj);
-              //store.zoom = 8;
             }
           }
-          //           LatLngBounds {_southWest: LatLng, _northEast: LatLng}
-          // _northEast: LatLng {lat: 80.4157074446218, lng: 196.52343750000003}
-          // _southWest: LatLng {lat: -73.8248203461393, lng: -148.71093750000003}
-          console.log(this.bounds);
-          // Install the center map--------------------------------------------------
-          // dynamicX = dynamicX / data.length;
-          // dynamicY = dynamicY / data.length;
-          // store.center = [dynamicX, dynamicY];
+          this.bounds = latLngBounds([
+            [x1, y1],
+            [x2, y2],
+          ]);
         });
-    },
-    updateBounds(event) {
-      console.log("worked");
-      console.log(event);
-      event._northEast.lat = 33;
-      event._northEast.lng = -33;
-      event._southWest.lat = 44;
-      event._southWest.lng = -44;
-      console.log(event);
-      for (let marker of store.markers) {
-        this.bounds._northEast.lat =
-          this.bounds._northEast.lat > marker.lat
-            ? marker.lat
-            : this.bounds._northEast.lat;
-      }
     },
   },
 };
